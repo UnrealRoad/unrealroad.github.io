@@ -12,12 +12,12 @@
                         router>
                     <el-submenu index="2" v-if="this.getLoginState">
                         <template slot="title">个人中心</template>
+                        <el-menu-item index="/admin">管理网站</el-menu-item>
                         <el-menu-item @click="layout">退出</el-menu-item>
-                        <el-menu-item index="2-2">选项2</el-menu-item>
                         <el-menu-item index="2-3">选项3</el-menu-item>
                     </el-submenu>
-                    <el-menu-item index="login" v-else>登录</el-menu-item>
-                    <el-menu-item index="home">首页</el-menu-item>
+                    <el-menu-item index="/login" v-else>登录</el-menu-item>
+                    <el-menu-item index="/home">首页</el-menu-item>
 
                 </el-menu>
             </el-header>
@@ -44,7 +44,7 @@
         },
         data() {
             return {
-                activeIndex: 'home',
+                activeIndex: '/home',
             };
         },
         methods: {
@@ -57,8 +57,7 @@
             }
         },
         created() {
-            //this.isLogin = !!localStorage.getItem('token');//判断是否存在token 这里不管token是否正确 在请求某些接口时再获取token正确性 根据结果判断是否进入下一步
-
+            this.activeIndex = this.$route.path
         }
     }
 </script>
@@ -68,7 +67,6 @@
     }
     .app-content{
         min-height: calc(85vh);
-
     }
     .app-padding-0{
         padding: 0;

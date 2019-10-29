@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Message } from 'element-ui';
-
+import router from '@/router/index'
 // create an axios instance
 const service = axios.create({
     baseURL: 'http://127.0.0.1:9501/', // url = base url + request url
@@ -28,37 +28,30 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-    /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-  */
-
-    /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
     response => {
-        const res = response.data;
-        return res;
+
+        return response.data;
     },
     error => {
-        console.log('err' + error.statusCode); // for debug
         let message = '系统错误';
         switch (error.response.status) {
             case 400:
                 message = error.response.data.message;
                 break;
+            case 401:
+                message = '请登录';
+                break;
             case 403:
-                message = '没有访问该接口权限';
+                message = '没有权限';
                 break;
         }
         Message({
             message: message,
             type: 'error',
-            duration: 5 * 1000
+            duration: 3 * 1000
         });
-        return Promise.reject(error);
+        router.push({path:'/home'})
+       // return Promise.reject(error);
     }
 );
 export default service;

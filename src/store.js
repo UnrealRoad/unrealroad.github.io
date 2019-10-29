@@ -15,7 +15,9 @@ export default new Vuex.Store({
         }
   },
   actions: {
-
+        setLoginState:(context) => {
+            context.commit('setLoginState')
+        }
   },
   getters:{
       //获取登录状态

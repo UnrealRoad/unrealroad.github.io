@@ -10,8 +10,7 @@
                         <el-input type="password" v-model="loginForm.password" autocomplete="off" class="input-width-100"></el-input>
                     </el-form-item>
 
-                    <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
-                    <el-button @click="resetForm('loginForm')">重置</el-button>
+                    <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
                 </el-form>
             </el-card>
         </el-col>
@@ -57,6 +56,7 @@
                         if(res.code == 1000){
                             localStorage.setItem('token',res.data.token);
                             this.setLoginState()//更改登录状态
+                            this.$router.push({path:'/home'})
                             //let socket = new WebSocket('ws://127.0.0.1:9502',res.data.token);
                         }
                     })
