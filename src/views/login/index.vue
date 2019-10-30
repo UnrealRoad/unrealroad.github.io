@@ -53,12 +53,12 @@
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     service.post('login',this.loginForm).then(res => {
-                        if(res.code == 1000){
-                            localStorage.setItem('token',res.data.token);
+
+                            localStorage.setItem('token',res.token);
                             this.setLoginState()//更改登录状态
                             this.$router.push({path:'/home'})
                             //let socket = new WebSocket('ws://127.0.0.1:9502',res.data.token);
-                        }
+
                     })
                 } else {
                     console.log('error submit!!');

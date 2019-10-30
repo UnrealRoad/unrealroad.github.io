@@ -12,7 +12,7 @@
                         router>
                     <el-submenu index="2" v-if="this.getLoginState">
                         <template slot="title">个人中心</template>
-                        <el-menu-item index="/admin">管理网站</el-menu-item>
+                        <el-menu-item index="/admin">我是管理员</el-menu-item>
                         <el-menu-item @click="layout">退出</el-menu-item>
                         <el-menu-item index="2-3">选项3</el-menu-item>
                     </el-submenu>
@@ -21,8 +21,8 @@
 
                 </el-menu>
             </el-header>
-            <el-main class="app-content app-padding-0">
-                <router-view></router-view>
+            <el-main class="app-content app-padding-0" style="padding-top: 20px">
+                <router-view ></router-view>
             </el-main>
             <el-footer class="app-padding-0 app-footer">Footer</el-footer>
         </el-container>

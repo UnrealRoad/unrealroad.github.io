@@ -27,31 +27,44 @@ service.interceptors.request.use(
 );
 
 // response interceptor
-service.interceptors.response.use(
-    response => {
+    service.interceptors.response.use(
+        response => {
+            if(response.data && response.data.code == 1000){
+                return response.data.data
+            }else{
+                if(response.data.code == 2000){
+                    console.log(response.data)
+                    Message({
+                        message: response.data.msg,
+                        type: 'error',
+                        duration: 3 * 1000
+                    });
+                }
+                return Promise.reject(response.data.msg)
+            }
 
-        return response.data;
-    },
-    error => {
-        let message = '系统错误';
-        switch (error.response.status) {
-            case 400:
-                message = error.response.data.message;
-                break;
-            case 401:
-                message = '请登录';
-                break;
-            case 403:
-                message = '没有权限';
-                break;
+        },
+        error => {
+            let message = '系统错误';
+            switch (error.response.status) {
+                case 400:
+                    message = error.response.data.message;
+                    break;
+                case 401:
+                    message = '请登录';
+                    break;
+                case 403:
+                    message = '没有权限';
+                    break;
+            }
+            Message({
+                message: message,
+                type: 'error',
+                duration: 3 * 1000
+            });
+            //router.push({path:'/home'})
+            // return Promise.reject(error);
         }
-        Message({
-            message: message,
-            type: 'error',
-            duration: 3 * 1000
-        });
-        router.push({path:'/home'})
-       // return Promise.reject(error);
-    }
-);
+    )
+
 export default service;
