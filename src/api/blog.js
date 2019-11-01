@@ -14,4 +14,11 @@ let base =  new Base('blog')
     data
   })
 }
+base.list = (params = {}) => {
+   return request({
+     url:base.url + '/list',
+     method:'get',
+     params:Object.assign(Api.query,params)
+   })
+}
 export var Api = base

@@ -8,7 +8,7 @@
                         <el-input v-model="formData.title"></el-input>
                     </el-form-item>
                     <el-form-item label="分类">
-                        <el-input v-model="formData.category"></el-input>
+                        <el-input v-model="formData.desc"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <mavon-editor  codeStyle="dark" v-model="content" style="min-height: 666px" @change="getContent"/>
@@ -35,7 +35,7 @@
           formData:{
               title:'',
               content:'',
-              category:''
+              desc:''
           }
       };
     },
@@ -51,10 +51,9 @@
         },
         store(){
              Api.store(this.formData).then(res   => {
-                console.log(res)
                 this.$message.success('保存成功')
             })
-        }
+        },
     },
 
     watch:{

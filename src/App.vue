@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="overflow: hidden">
     <router-view></router-view>
   </div>
 </template>
@@ -12,16 +12,20 @@ export default {
 }
 </script>
 
-<style>
+<style >
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+  overflow-x: hidden;
+}
+html{
+  overflow-x: hidden;
 }
   body{
     margin: 0;
+    overflow-x: hidden;
   }
 /*滚动条样式*/
 ::-webkit-scrollbar {/*滚动条整体样式*/

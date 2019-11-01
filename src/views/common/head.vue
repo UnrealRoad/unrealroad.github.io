@@ -21,7 +21,7 @@
 
                 </el-menu>
             </el-header>
-            <el-main class="app-content app-padding-0" style="padding-top: 20px">
+            <el-main class="app-content app-padding-0" id="app-content" style="padding-top: 20px">
                 <router-view ></router-view>
             </el-main>
             <el-footer class="app-padding-0 app-footer">Footer</el-footer>
@@ -58,6 +58,12 @@
         },
         created() {
             this.activeIndex = this.$route.path
+        },
+        watch:{
+
+            '$route':function(val){
+                this.activeIndex = this.$route.path
+            }
         }
     }
 </script>
@@ -67,12 +73,14 @@
     }
     .app-content{
         min-height: calc(85vh);
+        overflow-x: hidden;
     }
     .app-padding-0{
         padding: 0;
         min-width:calc(100%);
     }
     .app-footer{
-
+        text-align: center;
     }
+
 </style>

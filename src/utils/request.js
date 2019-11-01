@@ -32,15 +32,22 @@ service.interceptors.request.use(
             if(response.data && response.data.code == 1000){
                 return response.data.data
             }else{
-                if(response.data.code == 2000){
-                    console.log(response.data)
-                    Message({
-                        message: response.data.msg,
-                        type: 'error',
-                        duration: 3 * 1000
-                    });
+                let message = response.data.msg
+                switch (response.data.code) {
+                    case 2001:
+                        message = '不,你不是'
+                        router.push({path:'/home'})
+                        break
+                    default :
+
                 }
-                return Promise.reject(response.data.msg)
+
+                Message({
+                    message: message,
+                    type: 'error',
+                    duration: 3 * 1000
+                });
+                return Promise.reject(message)
             }
 
         },
@@ -63,7 +70,7 @@ service.interceptors.request.use(
                 duration: 3 * 1000
             });
             //router.push({path:'/home'})
-            // return Promise.reject(error);
+             return Promise.reject(error);
         }
     )
 
