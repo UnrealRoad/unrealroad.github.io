@@ -12,9 +12,8 @@
                         router>
                     <el-submenu index="2" v-if="this.getLoginState">
                         <template slot="title">个人中心</template>
-                        <el-menu-item index="/admin">我是管理员</el-menu-item>
+                        <el-menu-item v-if="getUserState" index="/admin">我是管理员</el-menu-item>
                         <el-menu-item @click="layout">退出</el-menu-item>
-                        <el-menu-item index="2-3">选项3</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="/login" v-else>登录</el-menu-item>
                     <el-menu-item index="/home">首页</el-menu-item>
@@ -22,7 +21,7 @@
                 </el-menu>
             </el-header>
             <el-main class="app-content app-padding-0" id="app-content" style="padding-top: 20px">
-                <router-view ></router-view>
+                <router-view></router-view>
             </el-main>
             <el-footer class="app-padding-0 app-footer">Footer</el-footer>
         </el-container>
@@ -35,23 +34,26 @@
 </template>
 
 <script>
-    import { mapGetters,mapMutations } from 'vuex'
+    import {mapGetters, mapMutations} from 'vuex'
+
     export default {
-        computed:{
+        computed: {
             ...mapGetters([
-                'getLoginState'
-            ])
+                'getLoginState',
+                'getUserState'
+            ]),
         },
         data() {
             return {
                 activeIndex: '/home',
+                showAdmin: false
             };
         },
         methods: {
             ...mapMutations([
                 'setLoginState'
             ]),
-            layout(){
+            layout() {
                 localStorage.removeItem('token')//清除token
                 this.setLoginState()//改变登录状态
             }
@@ -59,27 +61,30 @@
         created() {
             this.activeIndex = this.$route.path
         },
-        watch:{
+        watch: {
 
-            '$route':function(val){
+            '$route': function (val) {
                 this.activeIndex = this.$route.path
             }
         }
     }
 </script>
 <style scoped>
-    .el-menu--horizontal>.el-menu-item,.el-menu--horizontal>.el-submenu{
+    .el-menu--horizontal > .el-menu-item, .el-menu--horizontal > .el-submenu {
         float: right;
     }
-    .app-content{
+
+    .app-content {
         min-height: calc(85vh);
         overflow-x: hidden;
     }
-    .app-padding-0{
+
+    .app-padding-0 {
         padding: 0;
-        min-width:calc(100%);
+        min-width: calc(100%);
     }
-    .app-footer{
+
+    .app-footer {
         text-align: center;
     }
 

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import  store  from '@/store'
+import store from '@/store'
 import axios from 'axios'
 import {Api} from '@/api/user'
+
 Vue.use(Router);
 
 import HEAD from '@/views/common/head'
+
 const routes = [
     {
         path: '/',
@@ -20,7 +22,7 @@ const routes = [
                 component: () => import('@/views/login/index'),
             },
             {
-                path:'admin',
+                path: 'admin',
                 component: () => import('@/views/admin/index')
             },
             {
@@ -33,21 +35,27 @@ const routes = [
 //这里重写push方法 详细问题: https://github.com/vuejs/vue-router/issues/2881
 const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
-    return routerPush.call(this, location).catch(error=> error)
+    return routerPush.call(this, location).catch(error => error)
 }
-const router =  new Router({
+const router = new Router({
     routes,
 })
 let token = localStorage.getItem('token')
-if(token && !store.state.isLogin){
+if (token && !store.state.isLogin) {
     store.dispatch('setLoginState')
+    let a = token.split('.')
+    if (a.length === 3) {
+        let str = window.atob(a[1])
+        let obj = JSON.parse(str);
+        store.dispatch('setUserState', obj.is_admin)
+    }
 }
 router.beforeEach((to, from, next) => {
 
-    if(to.path == '/login' && store.state.isLogin){
-        next({path:'/home'})
-    }else{
-        if(to.path == '/admin'){
+    if (to.path == '/login' && store.state.isLogin) {
+        next({path: '/home'})
+    } else {
+        if (to.path == '/admin') {
             Api.getUserState().then(res => {
                 next()
             })

@@ -2,12 +2,14 @@
     <el-row class="app-margin-auto">
         <el-col :xl="{span:5,offset:10}" :sm="{span:8,offset:8}" :xs="{span:20,offset:2}" :md="{span:6,offset:9}">
             <el-card class="login-card">
-                <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="80px" class="login-form">
+                <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="80px"
+                         class="login-form text-center">
                     <el-form-item label="用户名" prop="username">
                         <el-input v-model="loginForm.username" class="input-width-100"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
-                        <el-input type="password" v-model="loginForm.password" autocomplete="off" class="input-width-100"></el-input>
+                        <el-input type="password" v-model="loginForm.password" autocomplete="off"
+                                  class="input-width-100"></el-input>
                     </el-form-item>
 
                     <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
@@ -20,65 +22,67 @@
 <script>
 
     import service from '@/utils/request'
-    import { mapMutations } from 'vuex'
-  export default {
-    name: 'index',
-    data() {
-      return {
-          loginForm: {
-              username: 'sonwen',
-              password: '123456',
-          },
-          rules: {
-              password: [
-                  { required:true,message:'请输入密码', trigger: 'blur' }
-              ],
-              username: [
-                  { required:true,message:'请输入用户名', trigger: 'blur' }
-              ]
-          }
-      };
-    },
-    mounted(){
+    import {mapMutations} from 'vuex'
 
-    },
-    created() {
+    export default {
+        name: 'index',
+        data() {
+            return {
+                loginForm: {
+                    username: '',
+                    password: '',
+                },
+                rules: {
+                    password: [
+                        {required: true, message: '请输入密码', trigger: 'blur'}
+                    ],
+                    username: [
+                        {required: true, message: '请输入用户名', trigger: 'blur'}
+                    ]
+                }
+            };
+        },
+        mounted() {
 
-    },
-    methods: {
-        ...mapMutations([
-            'setLoginState',//改变登录状态
-        ]),
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    service.post('login',this.loginForm).then(res => {
+        },
+        created() {
 
-                            localStorage.setItem('token',res.token);
+        },
+        methods: {
+            ...mapMutations([
+                'setLoginState',//改变登录状态
+                'setUserState'
+            ]),
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        service.post('login', this.loginForm).then(res => {
+
+                            localStorage.setItem('token', res.token);
                             this.setLoginState()//更改登录状态
-                            this.$router.push({path:'/home'})
+                            this.setUserState(JSON.parse(window.atob(res.token.split('.')[1])).is_admin)
+                            this.$router.push({path: '/home'})
                             //let socket = new WebSocket('ws://127.0.0.1:9502',res.data.token);
 
-                    })
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
         },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
-        }
-    },
 
-    watch:{
-
-    }
-  };
+        watch: {}
+    };
 </script>
 
 <style>
-    .login-card{
-       margin-top: 200px;
+    .login-card {
+        margin-top: 200px;
     }
+
 </style>
