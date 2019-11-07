@@ -3,7 +3,7 @@ import {Message} from 'element-ui';
 import router from '@/router/index'
 // create an axios instance
 const service = axios.create({
-    baseURL: 'http://api.serrors.com/', // url = base url + request url
+    baseURL: 'http://api.serrors.com:9501/', // url = base url + request url
     // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
 });
