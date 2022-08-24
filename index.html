@@ -17,16 +17,16 @@
   <meta name="keywords" content="">
   
     <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="前半生">
 <meta property="og:url" content="https://unrealroad.github.io/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="前半生">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Sonwen">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Hexo</title>
+  <title>前半生</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -338,7 +338,37 @@
       }
       var text = subtitle.getAttribute('data-typed-text');
       
-        typing(text);
+        jQuery.ajax({
+          type: 'GET',
+          url: 'slogan.json',
+          headers: {},
+          dataType: 'json',
+          success: function(result) {
+            var apiText;
+            if (result) {
+              var keys = 'data,content'.split(',');
+              if (result instanceof Array) {
+                result = result[Math.floor(Math.random()*result.length)];
+              }
+              for (const k of keys) {
+                var value = result[k];
+                if (typeof value === 'string') {
+                  apiText = value;
+                  break;
+                } else if (value instanceof Object) {
+                  result = value;
+                }
+              }
+            }
+            apiText ? typing(apiText) : typing(text);
+          },
+          error: function(xhr, status, error) {
+            if (error) {
+              console.error('Failed to request slogan.json:', error);
+            }
+            typing(text);
+          }
+        })
       
     })(window, document);
   </script>
