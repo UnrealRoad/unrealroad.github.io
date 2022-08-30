@@ -4,6 +4,48 @@
   
   
   <entry>
+    <title>我的第一篇文章</title>
+    <link href="/2022/08/30/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
+    <url>/2022/08/30/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>在js中将table导出为excel</title>
+    <link href="/2022/08/30/js-export-table/"/>
+    <url>/2022/08/30/js-export-table/</url>
+    
+    <content type="html"><![CDATA[<p>最近项目中需要导出表格数据,以前一直是使用的PHP进行导出. 这次在网上找了段代码可以直接使用js导出table</p><p>下面是网上的代码:</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">base64</span>(<span class="hljs-params">content</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">btoa</span>(<span class="hljs-built_in">unescape</span>(<span class="hljs-built_in">encodeURIComponent</span>(content)));<br>&#125;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">tableToExcel</span>(<span class="hljs-params">tableID</span>) &#123;<br>    <span class="hljs-keyword">var</span> excelContent = $(<span class="hljs-string">&quot;#&quot;</span> + tableID).<span class="hljs-title function_">html</span>();<br>    <span class="hljs-keyword">var</span> excelFile = <span class="hljs-string">&quot;&lt;html xmlns:o=&#x27;urn:schemas-microsoft-com:office:office&#x27; xmlns:x=&#x27;urn:schemas-microsoft-com:office:excel&#x27; xmlns=&#x27;http://www.w3.org/TR/REC-html40&#x27;&gt;&quot;</span>;<br>    excelFile += <span class="hljs-string">&quot;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;&#123;worksheet&#125;&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&quot;</span>;<br>    excelFile += <span class="hljs-string">&quot;&lt;body&gt;&lt;table width=&#x27;10%&#x27;  border=&#x27;1&#x27;&gt;&quot;</span>;<br>    excelFile += excelContent;<br>    excelFile += <span class="hljs-string">&quot;&lt;/table&gt;&lt;/body&gt;&quot;</span>;<br>    excelFile += <span class="hljs-string">&quot;&lt;/html&gt;&quot;</span>;<br>    <span class="hljs-keyword">var</span> link = <span class="hljs-string">&quot;data:application/vnd.ms-excel;base64,&quot;</span> + <span class="hljs-title function_">base64</span>(excelFile);<br>    <span class="hljs-keyword">var</span> a = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;a&quot;</span>);<br>    <span class="hljs-keyword">var</span> fileName = $(<span class="hljs-string">&quot;#filename&quot;</span>).<span class="hljs-title function_">val</span>();<br>    a.<span class="hljs-property">download</span> =  fileName + <span class="hljs-string">&quot;.xls&quot;</span>;<br>    a.<span class="hljs-property">href</span> = link;<br>    a.<span class="hljs-title function_">click</span>();<br>&#125;<br></code></pre></td></tr></table></figure><p>如果在导出后因为数字过长自动转为了科学计数的话 可以加上样式 </p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;vnd.ms-excel.numberformat:@&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>这样就能导出后Excel文件中的数字默认就是文本了,下面还有一些其他格式</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">日期：vnd<span class="hljs-selector-class">.ms-excel</span><span class="hljs-selector-class">.numberformat</span>:yyyy/mm/<span class="hljs-selector-tag">dd</span><br>数字：vnd<span class="hljs-selector-class">.ms-excel</span><span class="hljs-selector-class">.numberformat</span>:#,##<span class="hljs-number">0.00</span><br>货币：vnd<span class="hljs-selector-class">.ms-excel</span><span class="hljs-selector-class">.numberformat</span>:￥#,##<span class="hljs-number">0.00</span><br>百分比：vnd<span class="hljs-selector-class">.ms-excel</span><span class="hljs-selector-class">.numberformat</span>: #<span class="hljs-number">0.00%</span><br></code></pre></td></tr></table></figure><p>参考:</p><a href="https://zhuanlan.zhihu.com/p/482587671" title="" target="_blank">在使用js-table2excel出现导出数据变成科学计数问题解决</a>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>js</tag>
+      
+      <tag>html</tag>
+      
+      <tag>excel</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2022/08/24/hello-world/"/>
     <url>/2022/08/24/hello-world/</url>
